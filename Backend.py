@@ -3,17 +3,18 @@ import boto3
 
 def lambda_handler(event, context):
 
+
     client = boto3.resource('dynamodb')
     
-    table = client.Table('visitor_count')
+    table = client.Table('visitorCounter')
     
     response = table.update_item(
         Key = {
             'path': 'index.html'
         }, 
         AttributeUpdates={
-            'visitor_count' = {
-                'Value' : 1
+            'visitor_count' : {
+                'Value' : 1,
                 'Action' : 'ADD'
             }
         }
@@ -30,4 +31,6 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'headers': {
             'Access-Control-Allow-Origin' : '*'
-        }
+        },
+        'body' : visitor_count
+    }
